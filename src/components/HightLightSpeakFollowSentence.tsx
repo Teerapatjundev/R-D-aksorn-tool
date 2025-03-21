@@ -29,21 +29,17 @@ const HightLightSpeakFollowSentence: React.FC = () => {
     start: number,
     end: number
   ) => {
-    let merged = false;
-    let newRanges: { start: number; end: number }[] = [];
+    const newRanges: { start: number; end: number }[] = [];
 
     for (const range of ranges) {
       if (start >= range.start && end <= range.end) {
         // ✅ ถ้าช่วงใหม่ถูกครอบคลุมโดยช่วงเดิมอยู่แล้ว → ไม่ต้องเพิ่ม
         return ranges;
       } else if (range.start >= start && range.end <= end) {
-        // ✅ ถ้าช่วงใหม่ใหญ่กว่าช่วงเดิม → แทนที่ช่วงเก่าทั้งหมด
-        merged = true;
       } else if (start <= range.end && end >= range.start) {
         // ✅ ถ้ามีการทับซ้อนกัน → รวมเป็นช่วงเดียวกัน
         start = Math.min(start, range.start);
         end = Math.max(end, range.end);
-        merged = true;
       } else {
         // ✅ ถ้าไม่มีทับซ้อนกัน → เก็บช่วงเก่าไว้
         newRanges.push(range);

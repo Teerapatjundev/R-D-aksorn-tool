@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, useDraggable, useDroppable } from "@dnd-kit/core";
 
 const words = [
   { id: "a", text: "a" },
@@ -89,10 +89,10 @@ const ArticleMatchingGame: React.FC = () => {
   const [droppedItems, setDroppedItems] = useState<{ [key: string]: string | null }>({});
   const [showResult, setShowResult] = useState(false);
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over) {
-      setDroppedItems((prev) => ({ ...prev, [over.id]: active.id }));
+      setDroppedItems((prev) => ({ ...prev, [over.id as string]: active.id as string }));
       setShowResult(false); // ซ่อนผลลัพธ์เมื่อมีการลากใหม่
     }
   };

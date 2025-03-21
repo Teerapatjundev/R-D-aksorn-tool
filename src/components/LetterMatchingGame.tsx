@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, useDraggable, useDroppable } from "@dnd-kit/core";
 
 const initialLetters = ["a", "e", "d", "h", "f", "b", "c", "l", "m", "n"];
 
@@ -89,7 +89,7 @@ const LetterMatchingGame: React.FC = () => {
   }>({});
   const [showResult, setShowResult] = useState(false);
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over) {
       // ค้นหาว่าตัวอักษรนี้ถูกใช้ที่ช่องไหนอยู่ก่อนหน้านี้
@@ -106,7 +106,7 @@ const LetterMatchingGame: React.FC = () => {
         }
         
         // วางตัวอักษรที่ช่องใหม่
-        newState[over.id] = active.id;
+        newState[over.id as string] = active.id as string;
 
         return newState;
       });

@@ -14,7 +14,7 @@ export default function Home() {
       }}
     >
       <h1 className="text-4xl text-[#fff] font-bold text-center">Interactive Learning Games</h1>
-      
+        
       {/* Letter Matching Game */}
       <section className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">🔤 Letter Matching Game</h2>

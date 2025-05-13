@@ -35,7 +35,7 @@ export default function Home() {
 
       {/* Highlight Speak Follow Sentence */}
       <section className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4">🎤 Highlight Speak Follow Sentence</h2>
+        <h2 className="text-2xl font-semibold mb-4">🎤 Highlight Speak Follow Sentence ver 2</h2>
         <HighlightSpeakFollowSentence />
       </section>
 

@@ -28,10 +28,10 @@ export default function Home() {
       </section>
 
       {/* Highlight Select Text */}
-      <section className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg">
+      {/* <section className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">📝 Highlight Select Text</h2>
         <HighlightSelectText />
-      </section>
+      </section> */}
 
       {/* Highlight Speak Follow Sentence */}
       <section className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg">

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import ArticleMatchingGame from "@/components/ArticleMatchingGame";
-import HighlightSelectText from "@/components/HightLightSelectText";
+// import HighlightSelectText from "@/components/HightLightSelectText";
 import HighlightSpeakFollowSentence from "@/components/HightLightSpeakFollowSentence";
 import LetterMatchingGame from "@/components/LetterMatchingGame";
 

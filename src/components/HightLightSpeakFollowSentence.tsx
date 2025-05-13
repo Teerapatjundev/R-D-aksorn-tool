@@ -86,19 +86,28 @@ const HighlightSpeakFollowSentence: React.FC = () => {
       );
     };
 
-    const loadVoicesAndSpeak = () => {
+    const speakWithVoices = () => {
       const voices = synth.getVoices();
       const bestVoice = getBestVoice(voices, lang);
-
       if (bestVoice) utterance.voice = bestVoice;
       synth.speak(utterance);
     };
 
+    // Safari fallback: use timeout if voices not yet available
     if (synth.getVoices().length === 0) {
-      synth.onvoiceschanged = loadVoicesAndSpeak;
-    } else {
+      // Try both onvoiceschanged AND timeout fallback
+      let tried = false;
 
-      loadVoicesAndSpeak();
+      const tryOnce = () => {
+        if (tried) return;
+        tried = true;
+        speakWithVoices();
+      };
+
+      synth.onvoiceschanged = tryOnce;
+      setTimeout(tryOnce, 300);
+    } else {
+      speakWithVoices();
     }
   };
 

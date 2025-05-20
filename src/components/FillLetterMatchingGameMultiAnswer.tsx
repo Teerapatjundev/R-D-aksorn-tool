@@ -1,30 +1,9 @@
 "use client";
-import React, { useState } from "react";
-import {
-  DndContext,
-  DragEndEvent,
-  useDraggable,
-  useDroppable,
-} from "@dnd-kit/core";
+import React, { useState, useRef } from "react";
 
-const initialLetters = ["a", "e", "d", "h", "f", "b", "c", "l", "m", "n"];
-
-const blanksMulti: { id: string; correct: string[] }[] = [
-  { id: "blank-1", correct: ["m", "c"] }, // Maths
-  { id: "blank-2", correct: ["d", "f"] }, // IT
-  { id: "blank-3", correct: ["e", "c"] }, // PE
-  { id: "blank-4", correct: ["c", "f"] }, // Science
-  { id: "blank-5", correct: ["b", "c"] }, // History
-];
-
-const DraggableLetter = ({ id }: { id: string }) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
-
+const TextLetter = ({ id }: { id: string }) => {
   return (
     <button
-      ref={setNodeRef}
-      {...listeners}
-      {...attributes}
       style={{
         padding: "8px 12px",
         margin: "5px",
@@ -33,9 +12,6 @@ const DraggableLetter = ({ id }: { id: string }) => {
         border: "1px solid #000",
         borderRadius: "5px",
         cursor: "grab",
-        transform: transform
-          ? `translate(${transform.x}px, ${transform.y}px)`
-          : undefined,
       }}
     >
       {id}
@@ -43,111 +19,36 @@ const DraggableLetter = ({ id }: { id: string }) => {
   );
 };
 
-const TextBoxAreaMulti = ({
-  id,
-  answer,
-  correct,
-  showResult,
-  onRemove,
-}: {
-  id: string;
-  answer: string | null;
-  correct: string[];
-  showResult: boolean;
-  onRemove: () => void;
-}) => {
-  const { setNodeRef } = useDroppable({ id });
-  const [valueBox, setValueBox] = useState("");
-
-  return (
-    <div style={{ display: "flex", alignItems: "center" }}>
-      <input
-        ref={setNodeRef}
-        maxLength={14}
-        type="text"
-        value={valueBox}
-        // value={answer || ""}
-        // onClick={answer ? onRemove : undefined}
-        onChange={(e) => {
-          setValueBox(e.target.value);
-        }}
-        style={{
-          width: "150px",
-          height: "30px",
-          textAlign: "center",
-          border: "1px solid black",
-          marginRight: "5px",
-          backgroundColor: showResult
-            ? correct.some((item) => item === answer)
-              ? "lightgreen" // ✅ ถูกต้อง
-              : "lightcoral" // ❌ ผิด
-            : "white",
-        }}
-      />
-      {showResult && answer && (
-        <span style={{ marginLeft: "10px", fontSize: "18px" }}>
-          {correct.some((item) => item === answer) ? "✅" : "❌"}
-        </span>
-      )}
-    </div>
-  );
-};
-
 const LetterMatchingGame: React.FC = () => {
-  const [droppedItems, setDroppedItems] = useState<{
-    [key: string]: string | null;
-  }>({});
-  const [showResult, setShowResult] = useState(false);
+  const initialLetters = ["zzzzz", "xxxxx", "ggggg", "kkkkk", "uuuuu"];
+  const inputRefs = useRef<HTMLInputElement[]>([]);
+  const [finishGame, setFinishGame] = useState<boolean>(false);
+  const [blanksMulti, setBlanksMulti] = useState<
+    { id: string; result: string; correct: string[] }[]
+  >([
+    { id: "blank-1", result: "", correct: ["zzzzz", "xxxxx"] },
+    { id: "blank-2", result: "", correct: ["kkkkk", "uuuuu"] },
+    { id: "blank-3", result: "", correct: ["kkkkk", "ggggg"] },
+    { id: "blank-4", result: "", correct: ["ggggg", "zzzzz"] },
+    { id: "blank-5", result: "", correct: ["uuuuu", "xxxxx"] },
+  ]);
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (over) {
-      // ค้นหาว่าตัวอักษรนี้ถูกใช้ที่ช่องไหนอยู่ก่อนหน้านี้
-      const prevSlot = Object.keys(droppedItems).find(
-        (key) => droppedItems[key] === active.id
-      );
-
-      setDroppedItems((prev) => {
-        const newState = { ...prev };
-
-        // เอาตัวอักษรออกจากช่องเดิม (ถ้ามี)
-        if (prevSlot) {
-          newState[prevSlot] = null;
-        }
-
-        // วางตัวอักษรที่ช่องใหม่
-        newState[over.id as string] = active.id as string;
-
-        return newState;
-      });
-
-      // ซ่อนผลลัพธ์เมื่อมีการลากใหม่
-      setShowResult(false);
-    }
+  const funcAnswer = () => {
+    setFinishGame(true);
+    // const values = inputRefs.current.map((input) => input?.value || "");
+    // console.log("Submitted values:", values);
   };
 
-  const handleRemove = (id: string) => {
-    setDroppedItems((prev) => {
-      const newState = { ...prev };
-      newState[id] = null; // ลบค่าจากช่อง
-      return newState;
+  const resetForm = () => {
+    setFinishGame(false);
+    setBlanksMulti(blanksMulti.map((row) => ({ ...row, result: "" })));
+    inputRefs.current.forEach((input) => {
+      if (input) input.value = "";
     });
-    setShowResult(false);
-  };
-
-  const checkAnswers = () => {
-    setShowResult(true);
-  };
-
-  const resetGame = () => {
-    setDroppedItems({});
-    setShowResult(false);
   };
 
   return (
     <React.Fragment>
-      {/* <DndContext onDragEnd={handleDragEnd}> */}
-      {/* พื้นที่ลากตัวอักษร */}
       <div
         style={{
           display: "flex",
@@ -156,9 +57,7 @@ const LetterMatchingGame: React.FC = () => {
         }}
       >
         {initialLetters.map((letter) => {
-          // แสดงเฉพาะตัวอักษรที่ยังไม่มีในช่องใดๆ
-          const isUsed = Object.values(droppedItems).includes(letter);
-          return !isUsed ? <DraggableLetter key={letter} id={letter} /> : null;
+          return <TextLetter id={letter} />;
         })}
       </div>
 
@@ -174,13 +73,38 @@ const LetterMatchingGame: React.FC = () => {
             }}
           >
             <span>{index + 1}.</span>
-            <TextBoxAreaMulti
-              id={item.id}
-              answer={droppedItems[item.id] || null}
-              correct={item.correct}
-              showResult={showResult}
-              onRemove={() => handleRemove(item.id)}
-            />
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <input
+                ref={(el) => {
+                  inputRefs.current[index] = el!;
+                }}
+                readOnly={finishGame}
+                maxLength={10}
+                type="text"
+                onChange={(e) => {
+                  let item = blanksMulti[index];
+                  item.result = e.target.value;
+                  const merged = [
+                    ...blanksMulti.slice(0, index), // ก่อนตำแหน่ง index
+                    item, // แทนที่ตำแหน่ง index
+                    ...blanksMulti.slice(index + 1), // หลังตำแหน่ง index
+                  ];
+                  setBlanksMulti(merged);
+                }}
+                style={{
+                  width: "150px",
+                  height: "30px",
+                  textAlign: "center",
+                  border: "1px solid black",
+                  marginRight: "5px",
+                  backgroundColor: finishGame
+                    ? item.correct.some((i) => i === item.result)
+                      ? "lightgreen" // ✅ ถูกต้อง
+                      : "lightcoral" // ❌ ผิด
+                    : "white",
+                }}
+              />
+            </div>
           </div>
         ))}
       </div>
@@ -188,7 +112,9 @@ const LetterMatchingGame: React.FC = () => {
       {/* ปุ่มตรวจสอบและรีเซ็ต */}
       <div style={{ textAlign: "center", marginTop: "20px" }}>
         <button
-          onClick={checkAnswers}
+          onClick={() => {
+            funcAnswer();
+          }}
           style={{
             padding: "10px 20px",
             fontSize: "16px",
@@ -203,7 +129,9 @@ const LetterMatchingGame: React.FC = () => {
           Check Answer
         </button>
         <button
-          onClick={resetGame}
+          onClick={() => {
+            resetForm();
+          }}
           style={{
             padding: "10px 20px",
             fontSize: "16px",
@@ -218,7 +146,6 @@ const LetterMatchingGame: React.FC = () => {
           Reset
         </button>
       </div>
-      {/* </DndContext> */}
     </React.Fragment>
   );
 };

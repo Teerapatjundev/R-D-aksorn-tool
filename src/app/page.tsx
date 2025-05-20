@@ -6,6 +6,7 @@ import HighlightSpeakFollowSentence from "@/components/HightLightSpeakFollowSent
 import LetterMatchingGame from "@/components/LetterMatchingGame";
 import LetterMatchingGameMultiAnswer from "@/components/LetterMatchingGameMultiAnswer";
 import FillLetterMatchingGame from "@/components/FillLetterMatchingGame";
+import FillLetterMatchingGameMultiAnswer from "@/components/FillLetterMatchingGameMultiAnswer";
 
 export default function Home() {
   return (
@@ -46,7 +47,7 @@ export default function Home() {
         <h2 className="text-2xl font-semibold mb-4">
           🔣 Fill the correct letters (Multi Answer)
         </h2>
-        <LetterMatchingGameMultiAnswer />
+        <FillLetterMatchingGameMultiAnswer />
       </section>
 
       {/* Article Matching Game */}

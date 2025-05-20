@@ -56,8 +56,8 @@ const LetterMatchingGame: React.FC = () => {
           marginBottom: "20px",
         }}
       >
-        {initialLetters.map((letter) => {
-          return <TextLetter id={letter} />;
+        {initialLetters.map((letter,i) => {
+          return <TextLetter key={i} id={letter} />;
         })}
       </div>
 
@@ -82,7 +82,7 @@ const LetterMatchingGame: React.FC = () => {
                 maxLength={10}
                 type="text"
                 onChange={(e) => {
-                  let item = blanksMulti[index];
+                  const item = blanksMulti[index];
                   item.result = e.target.value;
                   const merged = [
                     ...blanksMulti.slice(0, index), // ก่อนตำแหน่ง index

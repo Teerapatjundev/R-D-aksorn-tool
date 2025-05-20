@@ -20,17 +20,17 @@ const TextLetter = ({ id }: { id: string }) => {
 };
 
 const LetterMatchingGame: React.FC = () => {
-  const initialLetters = ["zzzzz", "xxxxx", "ggggg", "kkkkk", "uuuuu"];
+  const initialLetters = ["boat", "beam", "lala", "view", "au"];
   const inputRefs = useRef<HTMLInputElement[]>([]);
   const [finishGame, setFinishGame] = useState<boolean>(false);
   const [blanksMulti, setBlanksMulti] = useState<
     { id: string; result: string; correct: string[] }[]
   >([
-    { id: "blank-1", result: "", correct: ["zzzzz", "xxxxx"] },
-    { id: "blank-2", result: "", correct: ["kkkkk", "uuuuu"] },
-    { id: "blank-3", result: "", correct: ["kkkkk", "ggggg"] },
-    { id: "blank-4", result: "", correct: ["ggggg", "zzzzz"] },
-    { id: "blank-5", result: "", correct: ["uuuuu", "xxxxx"] },
+    { id: "blank-1", result: "", correct: ["boat", "beam"] },
+    { id: "blank-2", result: "", correct: ["boat", "beam"] },
+    { id: "blank-3", result: "", correct: ["boat", "beam"] },
+    { id: "blank-4", result: "", correct: ["beam", "boat"] },
+    { id: "blank-5", result: "", correct: ["beam", "boat"] },
   ]);
 
   const funcAnswer = () => {

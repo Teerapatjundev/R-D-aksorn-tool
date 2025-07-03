@@ -16,9 +16,11 @@ export default function Home() {
         background: "linear-gradient(to bottom, #1a237e, #000000)", // น้ำเงิน -> ดำ
       }}
     >
-      <h1 className="text-4xl text-[#fff] font-bold text-center">
+      {/* <h1 className="text-4xl text-[#fff] font-bold text-center">
         Interactive Learning Games
-      </h1>
+      </h1> */}
+
+      <h1 className="text-4xl text-[#fff] font-bold text-center">Test git </h1>
 
       {/* Letter Matching Game */}
       <section className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg">

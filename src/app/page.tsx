@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import ArticleMatchingGame from "@/components/ArticleMatchingGame";
-// import HighlightSelectText from "@/components/HightLightSelectText";
+import HighlightSelectText from "@/components/HightLightSelectText";
 import HighlightSpeakFollowSentence from "@/components/HightLightSpeakFollowSentence";
 import LetterMatchingGame from "@/components/LetterMatchingGame";
 import LetterMatchingGameMultiAnswer from "@/components/LetterMatchingGameMultiAnswer";
@@ -61,10 +61,10 @@ export default function Home() {
       </section>
 
       {/* Highlight Select Text */}
-      {/* <section className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg">
+      <section className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">📝 Highlight Select Text</h2>
         <HighlightSelectText />
-      </section> */}
+      </section>
 
       {/* Highlight Speak Follow Sentence */}
       <section className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg">
